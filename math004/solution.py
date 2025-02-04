@@ -1,13 +1,20 @@
-import math
+def is_palindrome(n):
+    return str(n) == str(n)[::-1]
 
-def lcm(a, b):
-    return a * b // math.gcd(a, b)
+def largest_palindrome_product(n):
+    max_num = 10**n - 1
+    min_num = 10**(n-1)
+    largest_palindrome = 0
+    
+    for i in range(max_num, min_num - 1, -1):
+        for j in range(i, min_num - 1, -1):  # Avoid redundant calculations
+            product = i * j
+            if product <= largest_palindrome:
+                break  # No need to check smaller products
+            if is_palindrome(product):
+                largest_palindrome = product
+    
+    return largest_palindrome
 
-def smallest_multiple(start, end):
-    result = 1
-    for i in range(start, end + 1):
-        result = lcm(result, i)
-    return result
-
-start, end = map(int, input("Enter the range of numbers (start,end): ").split(','))
-print("Smallest positive number evenly divisible by all numbers from", start, "to", end, "is:", smallest_multiple(start, end))
+n = int(input("Enter the number of digits: "))
+print("Largest palindrome product:", largest_palindrome_product(n))
